@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+/*Write a program to compute the sum of all numbersthatare multiples of 4,between 30 and 1000,in three different ways:
+with afor loop, a while loop and a do-while loop.After each loop print the value on the screen */
 int main(void)
 {
     int i,sum1=0,sum2=0,sum3=0;
