@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-/*rite a program that reads integers input by the user and outputsthose integers of 5digits. 
+/*write a program that reads integers input by the user and outputsthose integers of 5digits. 
 The program should end when 0 is the input. The following is an example of the execution of your program("↓"is Enter or the Return key ) */
 
 int main()
