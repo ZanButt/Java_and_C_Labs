@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+/*a)Write a program that prints backwardsa seven-digit positive integer.
+For example, if the integer is 9806593, the program should print 3956089. 
+You are not allowed to use any function of C standard library other than scanf() and printf().
+You are not allowed to use arrays either. For the case when the integer ends with 0, the number printed cannot have leading 0’s (Eg: input 3412400; output 42143).
+Hint: Use the division and remainder operators to separate the number into its individual digits.
+b)Modify your program so it prints backwards any positive integer, not necessarily a six-digit one. 
+*/
+
+int main()
+
+{ /* /* program prints numbers in reverse order but omits leading 0s */
+    int a=1,integer,i,remainder,counter=0,digits;
+    printf("Enter a number: ");
+    scanf("%d",&integer);
+    digits = integer;
+    //if one a number with a single digit is inputted, that number will be printed
+    if(digits<a && digits!= 0) {
+    printf("%d",digits);
+    }
+    // The following while loop will get the number of digits of the integer inputted by the user
+    while(digits>9){
+    digits /= 10;
+    a += 1;
+    }
+    for(i=1;i<=a;i++) {
+            if(counter != 0){ /* this will run if the counter does not equal to 0,
+            and that means that if there is a zero it now not omit it as this will be a middle 0 not an ending 0 */
+            remainder = integer%10;
+            printf("%d",remainder);
+            integer = integer/10;
+            }
+            else if(integer%10==0){
+                integer = integer/10;
+                }
+            else {
+        remainder = integer%10;
+        printf("%d",remainder);
+        counter +=1; /* As soon as the print f statement is used, the counter
+        increases by one so it runs through the first if loop */
+        integer = integer/10;
+            }
+    }
+    return 0;
+
+}
