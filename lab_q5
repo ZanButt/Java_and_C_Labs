@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+/* Calculate the value of from the infinite series PI = 4-(4/3)+(4/5)-(4/7)+......
+Write  a  program  which  reads  in  a  positive  integer  n(i.e.,  n>=1)and  calculates  the  value  of by adding up the first n terms of the above series */
 int main()
 {  /* This program will calculate and print the value of
     pi up to the first n terms using an infinite series */
