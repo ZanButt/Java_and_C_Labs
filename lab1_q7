@@ -1,0 +1,33 @@
+/*A positive integer number is said to be a perfect numberif its positivefactors, including 1 (but not the number itself), sum to the number. 
+For example, 6 is a perfect number because 6=1+2+3. Write a program that prints all perfect numbers smaller than or equal tosome integerm (m > 1) input by the user. 
+Note:Assume that x and y are two positive integers. 
+Then x is a factorof y if the remainder of the division of y by x is 0. For instance, 5 is a factor of 15, but not of 36. */
+
+#include <stdio.h>
+#include <stdlib.h>
+/* This Program will print all
+perfect numbers smaller than or
+equal to some integer m (m>1) input
+by the user */
+int main()
+{
+    int input,SumOfFactors=0,number,factors=0;
+    printf("Enter an integer (must be greater than 1): ");
+    scanf("%d",&input);
+    for(number=2;number<=input;number++){ // for loop that starts from 2 and increases by 1 until it equals to the inputted integer
+        for(factors=1;factors<number;factors++) { //for loop that runs for all numbers from 1 to the number, these will be checked to see if they are factors of the number
+            if(number%factors==0){
+            SumOfFactors = SumOfFactors + factors; /* We use an if statement see if
+        the remainder is zero when the number is divided by the factors. if this is so, the sum of factors
+        is added to the previous sum.  */
+        }
+        }
+    if(SumOfFactors==number) {
+            printf("%d ",SumOfFactors);/* We use an if statement see if
+        the the sum of factors is equal to the number, if this is so it will print the sumofthefactors which is
+        equal to the number. */
+            }
+            SumOfFactors = 0;
+    }
+  return 0;
+}
