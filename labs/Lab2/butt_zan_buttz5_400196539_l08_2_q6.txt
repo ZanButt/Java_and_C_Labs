@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define K 3
+
+void efficient( const int source[], int val[], int pos[], int size);
+void reconstruct( int source[], int m, const int val[], const int pos[], int n);
+int main()
+{
+    int source[] = {0,0,23,0,-7,0,0,48}; // given array
+    int val[K] = {0};
+    int pos[K] = {0};
+    efficient(source,val,pos,8); // gives val
+    printf("The Val vector is:");
+    print_array(val,K);
+    printf("The pos vector is:");
+    print_array(pos,K);
+
+    reconstruct(source,8,val,pos,3);
+    print_array(source,8);
+    return 0;
+}
+void efficient( const int source[], int val[], int pos[], int size) {
+int i,k=0;
+    for(i=0;i<size;i++){
+        if(source[i] != 0) {
+            val[k] = source[i];
+            pos[k] = i;
+            k++;
+}
+    }
+}
+void print_array(const int a[], int m){ // function prints arrats
+    int i;
+    for( i = 0; i < m; i++) {
+    printf("%d ", a[i]);
+    }
+    printf("\n");
+}
+void reconstruct( int source[], int m, const int val[], const int pos[], int n) {
+    int k = 0;
+    for(int i=0; i<m; i++) {
+        for(int l=0;l<m;) {
+        if(val[l]!=0){ // if some index of val does not equal 0 then run
+        for(int k;k<pos[l];k++) {
+            source[k] = 0; // puts 0's up until position value
+        }
+        l++
+        source[pos[l]] = val[l]; // makes source
+        }
+        }
+    }
+    if(pos[0]!= 0) { //is pos value at index 0 is something other than 0 source[0] will equal 0
+        source[0] = 0;
+    }
+}
