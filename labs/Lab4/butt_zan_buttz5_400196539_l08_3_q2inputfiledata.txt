@@ -1,0 +1,209 @@
+public class Matrix{
+	private int[][]  matrixData;	// integer array to store integer data
+	private int    rowsNum;	// number of rows
+	private int    colsNum;	// number of columns
+
+	public Matrix( int row, int col ) //constructor1
+	{
+		if(row<3) {
+			this.rowsNum = 3;
+		}
+		else {
+			this.rowsNum = row;
+		}
+		if(col<3) {
+			this.colsNum = 3;
+		}
+		else {
+			this.colsNum = col;
+		}
+		this.matrixData = new int[rowsNum][colsNum];
+		
+		//can we use this name?
+		/*matrixData = new int[rowsNum][colsNum];
+		for (int i=0; i<rowsNum; i++)
+			for(int j=0; j<colsNum; j++)
+				matrixData[i][j] = 0; */
+		
+		/* constructs a row-by-col matrix with all elements equal to 0;
+		if row<=0 then the number of rows of the matrix is set to 3;
+		likewise, if col<=0 the number of columns of the matrix is set to 3. */
+	}//end first constructor
+	public Matrix( int[][] table) // constructor2
+	{
+		/* constructs a matrix out of the two dimensional array table,
+		   with the same number of rows, columns, and the same element in each
+		 position as array table. */
+		rowsNum = table.length;
+		colsNum = table[0].length;
+		matrixData = new int[rowsNum][colsNum]; // allocates memory for the 2D array
+		//loop to fill the array with values:
+		for (int i=0; i<rowsNum; i++)
+			for(int j=0; j<colsNum; j++)
+				matrixData[i][j] = table[i][j];
+
+	}//end second constructor
+	
+	public int getRows()
+	{
+		return this.matrixData.length;
+	}
+	
+	
+	public int getElement(int i, int j) throws IndexOutOfBoundsException
+	{
+		/* if i and j are valid indices of this matrix,
+		   then the element on row i and column j of this matrix
+		   is returned; otherwise it throws an exception with message "Invalid indexes".*/
+
+		if  (i<=this.rowsNum && j<=this.colsNum) {
+			return this.matrixData[i][j];
+			/*return the required element*/
+		}
+		else {
+			throw new IndexOutOfBoundsException("Invalid indexes.");
+		}
+
+	}//end getElement
+	public boolean setElement(int  x, int i, int j)
+	{
+	      	  /* if i and j are valid indexes of this matrix, then the element on  row i and
+                       column j of this matrix is assigned the value  x and true is returned;
+                       otherwise false is returned and no change in the matrix is performed */
+		if  (i<=this.rowsNum && j<=this.colsNum) {
+			this.matrixData[i][j] = x;
+			return true;
+			/*return the required element*/
+		}
+		else {
+			return false;
+		}
+
+	}//end setElement
+	public Matrix copy()
+	{ /* returns a deep copy of this Matrix */
+		Matrix Temp = new Matrix(rowsNum,colsNum);
+		for (int i=0; i<rowsNum; i++)
+			for(int j=0; j<colsNum; j++)
+				Temp.matrixData[i][j] = this.matrixData[i][j];
+		// why is it temp.matrix
+		return Temp;
+	}//end copy
+	
+	public void addTo( Matrix m ) throws ArithmeticException
+	{
+		/*adds Matrix m to this Matrix; it throws an exception message "Invalid operation"
+		  if the matrix addition is not defined*/
+		Matrix Temp2 = new Matrix(rowsNum,colsNum);
+
+		if ( m.rowsNum == this.rowsNum && m.colsNum== this.colsNum) {
+			for (int i=0; i<rowsNum; i++)
+				for(int j=0; j<colsNum; j++)
+					Temp2.matrixData[i][j] = this.matrixData[i][j] + m.matrixData[i][j];
+		}
+		else {
+			throw new ArithmeticException("Invalid operation");
+		}
+	}
+	public Matrix subMatrix(int i, int j) 
+	{
+		Matrix Temp3 = new Matrix(i,j);
+		if(i <= this.matrixData.length && j <= this.matrixData[0].length)
+		{
+			Matrix subMatrix = new Matrix(i+1, j+1);
+			
+			for(int a = 0; a <= i; a++)
+			{
+				for(int b = 0; b <= j; b++)
+				{
+					subMatrix.setElement(this.matrixData[a][b], a, b);
+				}
+			}
+			
+			return subMatrix;
+		}
+		
+		/*if  (i<=this.rowsNum && j<=this.colsNum) {
+			for (int r=0; r<i; r++)
+				for(k=0; k<j; k++)
+					Temp3.matrixData[i][j] = this.matrixData[i][j];			
+		} */
+		else {
+			throw new ArithmeticException("submatrix not defined");
+		}
+		/*  returns a new Matrix object, which represents a submatrix of this Matrix,
+	    	formed out of rows 0 through i and columns 0 through j;
+	    	 the method should first check if values i and j are within the required range,
+	    	 and throw an exception if any of them is not. The exception detail message should read: "Submatrix not defined".
+	    	 Note: The new object should be constructed in such a way that changes in the new matrix do not affect
+	    	    this Matrix. */
+
+	}
+	public boolean isUpperTr() {
+		int bound = this.matrixData.length;
+		int count = 0;
+		for(int i = 0; i < bound; i++)
+		{
+			for(int x = 0; x < this.matrixData.length; x++)
+			{
+				if(this.matrixData[x][i] == 0) {
+
+					count++;
+					}
+			}
+			//If the number of zeros is not what an upper triangular matrix should have, the function automatically returns "false"
+			if(count != (bound - 1)) {
+			return false;}
+			bound--;
+			//Resetting the count of 0's
+			count = 0;
+		}
+		return true; 
+   }
+		
+	}
+	public static Matrix sum(Matrix[] matArray) {
+		int rows = matArray[0].rowsNum;
+		int columns = matArray[0].colsNum;
+		
+		//Check that all matrices have the same dimensions
+		for(int i = 1; i < matArray.length; i++)
+		{
+			if(matArray[i].rowsNum != rows || matArray[i].colsNum != columns)
+			{
+				throw new ArithmeticException("Matricies are not of same dimensions");
+			}
+		}
+		
+		Matrix newMatrix = new Matrix(rows, columns);
+		
+		//Adding to the new array from all the arrays passed into the function
+		for(int i = 0; i < matArray.length; i++)
+		{
+			newMatrix.addTo(matArray[i]);
+		}
+		
+		return newMatrix;
+	
+	
+	} 
+	
+	public String toString(  )
+	{
+		/* returns a string representing the matrix,
+		   with each row on a line, and the elements in each row being separated by 2 blank spaces. */
+
+		String output = new String(); // creates an empty string
+        	for(int i = 0; i < this.rowsNum; i++){
+        		for(int j = 0; j < this.colsNum; j++){
+        			output += matrixData.getElement(i,j)+ "  ";
+        		}
+        	output += "\n";
+        	}
+       		 return output;
+
+	}//end toString
+
+
+
+}

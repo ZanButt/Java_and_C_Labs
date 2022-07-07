@@ -1,0 +1,120 @@
+
+public class UpperTriangularMatrix {
+private int size;
+private int effArray[];
+private Matrix upTriArray;
+
+public UpperTriangularMatrix(int n){
+	if(n<=0) {
+		n = 1; 
+	}
+	this.size = n;
+	this.upTriArray = new Matrix(size, size);
+	this.effArray = new int[(size * (size + 1)) / 2];
+	// must initialize the upper triangular matrix
+	
+}
+public UpperTriangularMatrix(Matrix upTrim) {
+	if(upTrim.isUpperTr())
+	{
+		//Initializing variable fields
+		this.upTriArray = upTrim;
+		this.size = upTriArray.getRows();
+		this.effArray = new int[(this.size * (this.size + 1)) / 2];
+	}
+	else
+	{
+		//If not upper triangular, throws an exception
+		throw new IllegalArgumentException("Matrix is not Upper Triangular");
+	}
+}
+
+public int getDim() {
+	return this.size;
+}
+public int getElement(int i,int j) {
+	return this.upTriArray.getElement(i, j);
+}
+public void setElement(int x,int i,int j) {
+	this.upTriArray.setElement(x,i, j);	
+}
+public Matrix fullMatrix() {
+	return this.upTriArray;
+	
+}
+public void print1DArray() {
+
+	//this.setUpEffArray();
+	
+	for(int i = 0; i < this.effArray.length; i++)
+	{
+		//Printing each element with the separation of two spaces
+		System.out.print(this.effArray[i] + "  ");
+	}
+}
+public String toString() {
+	//return this.effArray.toString();
+	String concatString = "";
+	//Run through all the elements in the upper triangular array
+	for(int i = 0; i < this.size; i++)
+	{
+		for(int x = 0; x < this.size; x++)
+		{
+			concatString += this.upTriArray.getElement(i,  x) + "  ";
+		}
+		//Each new line is done by adding a new line character to the concatenated string
+		concatString += "\n";
+	}
+	return concatString;	
+}
+public int getDet() {
+	/*int det = 1;
+	int i=0;
+	for(i =0, i<this.size,i++) {
+		det *= this.upTriArray.getElement(i,i);
+		
+	}
+	return det; */
+	//Set total to (1) so any product will start
+	int total = 1;
+	for(int i = 0; i < this.size; i++)
+	{
+		//Using the [i][i] index references the main diagonal elements
+		total *= this.upTriArray.getElement(i,  i);
+	}
+	
+	//Returning the total product of the main diagonal entries
+	return total;
+}
+public double[] effSolve(double[] b) {
+	//Conditions before executing - rows match up and the determinant is non-zero
+	if(b.length == this.upTriArray.getRows() && this.getDet() != 0)
+	{
+		double x[] = new double[this.size];
+		double currentVal = 0;
+		
+		//THE  FOLLOWING FOR LOOP WILL SOLVE FOR X
+		for(int i = this.size - 1; i >= 0; i--)
+		{
+			currentVal = b[i];
+			
+			for(int j = 0; j < this.size; j++)
+			{
+				if(j != i)
+				//IF, NOT A DIAGNOL ELEMENT
+				{
+					currentVal = currentVal - (this.upTriArray.getElement(i, j) * x[j]);
+				}
+			}
+			//Finally gets the final x value by dividing coefficient of diagonal term by the currentVal
+			x[i] = currentVal / (this.upTriArray.getElement(i,  i));
+		}
+		return x;
+	}
+	else
+	{
+		throw new IllegalArgumentException("Matrix b Is Invalid");
+	} 
+	
+}
+}
