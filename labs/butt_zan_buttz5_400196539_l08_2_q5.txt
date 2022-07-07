@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void string_copy( char source[], char destination[], int n);
+
+/* program copies source array into destination array and
+truncates values if the dimension size of  the array is
+less than source size */
+
+int main()
+{
+    char source[50];
+    int n;
+
+printf("Please Enter a word, this will be stored in the source array: ");
+    scanf("%s",&source);
+
+
+printf("Please enter the size of destination array: ");
+    scanf("%d",&n);
+    char destination[n];
+    string_copy(source, destination, n);
+}
+void string_copy(char source[], char destination[], int n) {
+    int j;
+    for(j=0;j<n;j++){ //runs for size of destination array
+    destination[j] = source[j] ; // put destination value into source value
+    printf("%c",destination[j]);
+    }
+}
