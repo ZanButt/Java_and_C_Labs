@@ -1,0 +1,306 @@
+
+
+public class SLLNode {
+int value; 
+SLLNode next;
+public SLLNode(int i,SLLNode n)
+{
+	value = i;
+	next = n;
+}
+}
+
+
+
+
+
+public class SLLSet {
+	
+	private int size; 
+	private SLLNode head;
+	
+	public SLLSet()
+	{
+		head = null;
+		size = 0;
+	}
+	
+	public SLLSet(int[] sortedArray)
+	{ //MAKES AN SLLSET OBJECR THAR CONTAINS INTEGERS IN THE ARRAY
+		size = sortedArray.length;
+		// size of the data structure will be equal to the size of array
+		head = new SLLNode(sortedArray[0],null);
+		// defines the head of ds
+		SLLNode current = head; 
+		// now made the current node the head
+		for(int i=1;i<size;i++) {
+			current.next = new SLLNode(sortedArray[i],null);
+			current = current.next;		
+			//adds nodes one by one
+		}		
+	}
+	public int getSize() {
+		return size;
+	}
+	
+	public SLLSet copy() 
+	{
+		SLLSet Copy = new SLLSet();
+		// creates a new set
+		SLLNode current = head;
+		// makes head of SLLNode current
+		while(current != null)
+		{
+			
+			Copy.add(current.value);
+			current = current.next;
+			
+		}
+		
+	return Copy; 	
+	}
+	
+	public boolean isIn(int v) {
+		SLLNode current = head;
+		while(current != null) {
+			if(current.value == v) {
+				return true;
+			}
+			current = current.next;
+		}
+		return false;
+		
+	}
+	
+	public void add(int v)
+	   {
+	       if(head == null)
+	       { // checks if the head is equal to null
+	           head = new SLLNode(v, null);
+	           // puts v as the head of the list
+	           // as the next part in the ds is null
+	           size = 1;
+	           // since v is the only object in the ds then
+	           // size will be equal to 1 
+	       }
+	       if(v < head.value)
+	       {
+	    	   /* since the singly linked list is increasing order
+	    	    * if the v value is less then the head value it will become
+	    	    * the new head
+	    	    */
+	           head = new SLLNode(v, head);
+	           size++;
+	       }
+	       else //checks if if(v >= head.value) 
+	       {
+	           SLLNode current = head;
+	  
+	           SLLNode prev = null;
+	          
+	           while(current != null && v > current.value)
+	           {// this will make v basically come between the current value and the previous value
+	               prev = current;
+	               current = current.next;
+	           }
+	          
+	           if(current == null)
+	           {
+	               prev.next = new SLLNode(v, current);
+	               size++;
+	           }
+	           else if(current.value != v)
+	           {// now a new value is inserted in the singly linked list, and that is v
+	               prev.next = new SLLNode(v, current);
+	               size++;
+	           }
+	       }
+	   } // end of add method
+	
+	
+		public void remove(int v) {
+			if (this.isIn(v)) {
+				SLLNode current=this.head;
+				if (current.value==v) {
+					this.head=current.next;
+				}
+				else {
+					SLLNode prev =this.head;
+					while(current!=null) {
+						if (current.value==v) {
+							prev.next=current.next;
+						}
+						prev=current;
+						current=current.next;
+					}
+				}
+				this.size--;
+			}
+		}  
+		
+		 public SLLSet union(SLLSet s)
+		   {
+		       if(s.head == null)
+		           return this;
+		      
+		       if(this.head == null)
+		           return s;
+
+		       SLLSet unionSet = new SLLSet();
+		       SLLNode thisCurrent = this.head;
+		       SLLNode otherCurrent = s.head;       
+		       //folowing 4 cases are for if the size =1 
+		       if(thisCurrent.value < otherCurrent.value)
+		       {// checks if this current value is less than than othercurrent if so puts current value as head of unionset
+		           unionSet.head = new SLLNode(thisCurrent.value, null);
+		           unionSet.size = 1;
+		           thisCurrent = thisCurrent.next;
+		       }
+		       else if(thisCurrent.value > otherCurrent.value)
+		       {
+		           unionSet.head = new SLLNode(otherCurrent.value, null);
+		           unionSet.size = 1;
+		           otherCurrent = otherCurrent.next;          
+		       }
+		       else if(thisCurrent.value == otherCurrent.value)
+		       { // if values are equal then make this current value = unionset head
+		           unionSet.head = new SLLNode(thisCurrent.value, null);
+		           unionSet.size = 1;
+		           thisCurrent = thisCurrent.next;
+		           otherCurrent = otherCurrent.next;          
+		       }
+
+		       SLLNode unionCurrent = unionSet.head;
+		       while(thisCurrent != null && otherCurrent != null)
+		       { //
+		           if(thisCurrent.value < otherCurrent.value)
+		           { // checks if this current.value is less than other current value 
+		               unionCurrent.next = new SLLNode(thisCurrent.value, null);
+		               unionSet.size++;
+		               unionCurrent = unionCurrent.next;
+		               thisCurrent = thisCurrent.next;              
+		           }
+		           else if(thisCurrent.value > otherCurrent.value)
+		           {
+		               unionCurrent.next = new SLLNode(otherCurrent.value, null);
+		               unionSet.size++;
+		               unionCurrent = unionCurrent.next;              
+		               otherCurrent = otherCurrent.next;
+		           }
+		           else if(thisCurrent.value == otherCurrent.value)
+		           {
+		               unionCurrent.next = new SLLNode(otherCurrent.value, null);
+		               unionSet.size++;
+		               unionCurrent = unionCurrent.next;
+		               thisCurrent = thisCurrent.next;
+		               otherCurrent = otherCurrent.next;
+		           }
+		       }
+
+		       if(otherCurrent == null)
+		       {
+		           while(thisCurrent != null)
+		           {//if one of the lists finish then copies the rest of the other list into unioncurrent
+		               unionCurrent.next = new SLLNode(thisCurrent.value, null);
+		               unionSet.size++;
+		               unionCurrent = unionCurrent.next;
+		               thisCurrent = thisCurrent.next;
+		           }
+		       }
+		       else if(thisCurrent == null)
+		       {
+		           while(otherCurrent != null)
+		           {
+		               unionCurrent.next = new SLLNode(otherCurrent.value, null);
+		               unionSet.size++;
+		               unionCurrent = unionCurrent.next;
+		               otherCurrent = otherCurrent.next;
+		           }
+		       }
+		      
+		       return unionSet;
+		   } 	
+
+	public void incsize() {
+		this.size++;
+		}
+
+	public SLLSet intersection(SLLSet s) {
+		SLLSet intersect=new SLLSet();
+		if (this.size==0) {
+			return intersect;
+			// if size = 0 nothing to intersect
+		}
+		else {
+			SLLNode current=this.head;
+			SLLNode current2=s.head;
+			while(current!=null) {
+				current2=s.head;
+				while(current2!=null) {
+					if(current.value==current2.value) {
+						intersect.add(current.value);
+					}
+					current2=current2.next;
+					// checks if current value = current 2 value for all current values and then moves on
+				}
+				current=current.next;
+			}
+			return intersect;
+		}
+	} 
+	
+	public SLLSet difference(SLLSet s) {
+		// essentially adds all h1 values then removes all h2 values
+		
+		SLLSet difference = new SLLSet();
+		SLLNode h1 = this.head;
+		// h1 = head 1 
+		while(h1 != null) {
+			difference.add(h1.value);
+			//add values 
+			h1 = h1.next;
+		}
+		SLLNode h2 = s.head;
+		while(h2 != null) {
+			difference.remove(h2.value);
+			// remove values that are in h2 
+			h2 = h2.next;
+
+		
+		}
+		return difference; 
+	}
+	
+	public static SLLSet union(SLLSet[] sArray) {
+		SLLSet unionSET = sArray[0];
+			
+		for(int i =1; i<sArray.length-1;i++)
+		{
+			unionSET = unionSET.union(sArray[i]);
+			
+		}
+		return unionSET;
+		
+	}
+	public String toString() {
+		String result = "{";
+		SLLNode current = head;
+		
+		while(current != null){
+		result = result + current.value;	
+			
+		if(current.next != null)
+			result += ", ";
+		//if not the last element in ds then add a comma
+
+		current = current.next;
+		//continously changes the part of the node you are in 
+		}
+		
+		result += "}";
+		
+		return result; 
+	}
+	}
+	
+	
