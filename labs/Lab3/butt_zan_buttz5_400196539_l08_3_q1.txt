@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+char *my_strcat( const char * const str1, const char * const str2)
+{int len,len2,total,i,j;
+//char *p = &str1;
+//char *q = &str2;
+len = strlen(str1);
+len2 = strlen(str2);
+total = len + len2;
+//char *A =calloc(total+1,sizeof(char));
+char *A=calloc((total),sizeof(char)); /*
+for(i = 0; i < len;i++) //runs through the first word
+  {
+      A[i] = str1[i]; //allocates the values in the word to the desired position in newloc
+  }
+  for(j = 0; j < len2;i++)
+  {
+      A[i] = str2[j];//does the same thing for word2, word2 requires a new loop because the loop needs to start from 0 to read word from start
+      j++;
+  }
+A[i]= '\0'; */
+for(i=0;i<len;i++){
+A[i] = str1[i];}
+for(j=0;j<len2;j++){
+    A[i] = str2[j];
+    i++;
+}
+A[total] = '\0';
+return A;
+}
+
+int main()
+{   //int n,i,l;
+/*char a[3] = "hey";
+char *p = a[3];
+return p; */
+printf("%s\n",my_strcat("Hello","world!"));
+return 0;
+}
+
+
+
+
+
+
+
+
